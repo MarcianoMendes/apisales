@@ -14,7 +14,6 @@ export class UserRepository extends Repository<User> {
   }
 
   public async findById(id: string): Promise<User | undefined> {
-    // return this.findById(id);
     const user = this.findOne({
       where: {
         id,
