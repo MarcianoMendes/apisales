@@ -13,7 +13,6 @@ class SendForgotPasswordEmailService {
   public async execute({ email }: IRequest): Promise<void> {
     const usersRepository = getCustomRepository(UserRepository);
     const userTokensRepository = getCustomRepository(UserTokensRepository);
-
     const user = await usersRepository.findByEmail(email);
     if (!user) {
       throw new AppError('User does not exists');

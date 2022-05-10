@@ -20,13 +20,11 @@ class CreateSesssionService {
   public async execute({ email, password }: IRequest): Promise<IResponse> {
     const usersRepository = getCustomRepository(UserRepository);
     const user = await usersRepository.findByEmail(email);
-
     if (!user) {
       throw new AppError('Incorret e-mail/password combination', 401);
     }
 
     const passwordConfirmed = await compare(password, user.password);
-
     if (!passwordConfirmed) {
       throw new AppError('Incorret e-mail/password combination', 401);
     }

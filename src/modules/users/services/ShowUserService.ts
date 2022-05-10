@@ -11,7 +11,6 @@ class ShowUserService {
   public async execute({ id }: IRequest): Promise<User> {
     const usersRepository = getCustomRepository(UserRepository);
     const user = await usersRepository.findOne(id);
-
     if (!user) {
       throw new AppError('User not found');
     }

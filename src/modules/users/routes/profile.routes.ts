@@ -6,7 +6,6 @@ import ProfileController from '../controllers/ProfileController';
 const profileRouter = Router();
 const profileController = new ProfileController();
 profileRouter.use(authenticated);
-
 const seguimentBody = {
   name: Joi.string().required(),
   email: Joi.string().email().required(),
@@ -26,5 +25,4 @@ function validateBody(): RequestHandler {
 
 profileRouter.get('/', profileController.show);
 profileRouter.put('/', validateBody(), profileController.update);
-
 export default profileRouter;
