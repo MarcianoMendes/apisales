@@ -1,6 +1,7 @@
 import { celebrate, Joi, Segments } from 'celebrate';
 import { RequestHandler, Router } from 'express';
 import ProductController from '../controllers/ProductController';
+import authenticated from '@shared/http/middlewares/authenticated';
 
 const seguimentParams = {
   id: Joi.string().uuid().required(),
@@ -28,6 +29,7 @@ function validateParamsAndBody(): RequestHandler {
 }
 
 const productsRouter = Router();
+productsRouter.use(authenticated);
 const productController = new ProductController();
 productsRouter.get('/', productController.index);
 productsRouter.get('/:id', validateParams(), productController.show);
