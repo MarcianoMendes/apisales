@@ -6,6 +6,8 @@ class ListCustomerService {
   public async execute(): Promise<Customer[]> {
     const customersRepository = getCustomRepository(CustomerRepository);
     const customers = await customersRepository.find();
+    // const customers = await customersRepository.createQueryBuilder().paginate();
+    console.log(process.env.APP_SECRET);
     return customers;
   }
 }
