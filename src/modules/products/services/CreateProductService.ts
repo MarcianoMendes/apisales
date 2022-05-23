@@ -20,13 +20,13 @@ class CreateProductService {
     }
 
     const redisCache = new RedisCache();
-
     const product = await productsRepository.create({
       name,
       price,
       quantity,
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await redisCache.invalidate(process.env.REDIS_KEY_TO_PRODUCTS!);
     await productsRepository.save(product);
     return product;

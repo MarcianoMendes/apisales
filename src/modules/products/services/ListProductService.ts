@@ -7,6 +7,7 @@ class ListProductService {
   public async execute(): Promise<Product[]> {
     const productsRepository = getCustomRepository(ProductRepository);
     const redisCache = new RedisCache();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const key: string = process.env.REDIS_KEY_TO_PRODUCTS!;
     let products = await redisCache.recover<Product[]>(key);
 

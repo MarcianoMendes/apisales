@@ -33,6 +33,7 @@ class UpdateProductService {
     product.price = price;
     product.quantity = quantity;
     const redisCache = new RedisCache();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await redisCache.invalidate(process.env.REDIS_KEY_TO_PRODUCTS!);
     await productsRepository.save(product);
     return product;
