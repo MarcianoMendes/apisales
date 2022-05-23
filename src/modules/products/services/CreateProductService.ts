@@ -26,8 +26,7 @@ class CreateProductService {
       quantity,
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    await redisCache.invalidate(process.env.REDIS_KEY_TO_PRODUCTS!);
+    await redisCache.invalidate(String(process.env.REDIS_KEY_TO_PRODUCTS));
     await productsRepository.save(product);
     return product;
   }
