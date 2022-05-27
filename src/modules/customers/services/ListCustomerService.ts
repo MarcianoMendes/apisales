@@ -11,7 +11,6 @@ class ListCustomerService {
   ) {}
 
   public async execute(): Promise<ICustomer[]> {
-    console.log('customers');
     const customers = await this.customersRepository.findAll();
     return <ICustomer[]>customers;
   }

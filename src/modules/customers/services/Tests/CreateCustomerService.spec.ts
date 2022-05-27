@@ -12,7 +12,7 @@ describe('CreateCustomerService', () => {
     createCustomer = new CreateCustomerService(fakeCustomerRepository);
   });
 
-  it('should be able to create a nee custumer', async () => {
+  it('should be able to create a new custumer', async () => {
     const customer = await createCustomer.execute({
       name: 'marciano mendes',
       email: 'marciano.mendes@hotmail.com',

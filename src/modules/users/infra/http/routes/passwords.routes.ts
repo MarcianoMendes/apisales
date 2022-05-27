@@ -31,4 +31,5 @@ passwordRouter.post(
   validateBody(seguimentBodyReset),
   resetPasswordController.create,
 );
+
 export default passwordRouter;
