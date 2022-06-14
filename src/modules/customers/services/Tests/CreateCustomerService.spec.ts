@@ -24,15 +24,14 @@ describe('CreateCustomerService', () => {
   it('should not be able to create two customers with the same email', async () => {
     await createCustomer.execute({
       name: 'marciano mendes',
-      email: 'marciano.mendes@hotmail.com',
+      email: 'marciano@hotmail.com',
     });
 
-    expect(1).toBe(1);
-    // expect(
-    //   createCustomer.execute({
-    //     name: 'marciano mendes',
-    //     email: 'marciano.mendes@hotmail.com',
-    //   }),
-    // ).rejects.toBeInstanceOf(AppError);
+    expect(
+      createCustomer.execute({
+        name: 'marciano mendes',
+        email: 'marciano@hotmail.com',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });

@@ -4,14 +4,15 @@ import { ICustomersRepository } from '@modules/customers/domain/repositories/ICu
 import Customer from '@modules/customers/infra/typeorm/entities/Customer';
 
 class FakeCustomerRepository implements ICustomersRepository {
-  private customers: Customer[];
+  private customers: Customer[] = [];
 
   public async create({ name, email }: ICreateCustomer): Promise<Customer> {
-    const custumer = new Customer();
-    custumer.id = uuidv4();
-    custumer.name = name;
-    custumer.email = email;
-    return custumer;
+    const customer = new Customer();
+    customer.id = uuidv4();
+    customer.name = name;
+    customer.email = email;
+    this.customers.push(customer);
+    return customer;
   }
 
   public async save(customer: Customer): Promise<Customer> {
