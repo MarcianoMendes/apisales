@@ -29,8 +29,8 @@ function validateParamsAndBody(): RequestHandler {
 }
 
 const productsRouter = Router();
-productsRouter.use(authenticated);
 const productController = new ProductController();
+productsRouter.use(authenticated);
 productsRouter.get('/', productController.index);
 productsRouter.get('/:id', validateParams(), productController.show);
 productsRouter.post('/', validateBody(), productController.create);
