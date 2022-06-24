@@ -1,13 +1,14 @@
 import { ICreateUser } from '@modules/users/domain/models/ICreateUser';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import User from '../entities/User';
+import { dataSource } from '@shared/infra/typeorm';
 
 class UsersRepository implements IUsersRepository {
   private ormRepository: Repository<User>;
 
   constructor() {
-    this.ormRepository = getRepository(User);
+    this.ormRepository = dataSource.getRepository(User);
   }
 
   public async create({ name, email, password }: ICreateUser): Promise<User> {
@@ -21,39 +22,33 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
-  public async findAll(): Promise<User[] | undefined> {
+  public async findAll(): Promise<User[] | null> {
     return await this.ormRepository.find();
   }
 
-  public async findAllPaginate(): Promise<User[] | undefined> {
+  public async findAllPaginate(): Promise<User[] | null> {
     return await this.ormRepository.find();
   }
 
-  public async findByName(name: string): Promise<User | undefined> {
-    const user = this.ormRepository.findOne({
-      where: {
-        name,
-      },
+  public async findByName(name: string): Promise<User | null> {
+    const user = this.ormRepository.findOneBy({
+      name,
     });
 
     return user;
   }
 
-  public async findById(id: string): Promise<User | undefined> {
-    const user = this.ormRepository.findOne({
-      where: {
-        id,
-      },
+  public async findById(id: string): Promise<User | null> {
+    const user = this.ormRepository.findOneBy({
+      id,
     });
 
     return user;
   }
 
-  public async findByEmail(email: string): Promise<User | undefined> {
-    const user = this.ormRepository.findOne({
-      where: {
-        email,
-      },
+  public async findByEmail(email: string): Promise<User | null> {
+    const user = this.ormRepository.findOneBy({
+      email,
     });
 
     return user;

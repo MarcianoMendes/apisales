@@ -15,7 +15,7 @@ import { AddCustomerIdToOrders1652294572603 } from './migrations/1652294572603-A
 import { CreateOrdersProducts1652295404709 } from './migrations/1652295404709-CreateOrdersProducts';
 import { AddOrderIdToOrdersProducts1652295820563 } from './migrations/1652295820563-AddOrderIdToOrdersProducts';
 import { AddProductIdToOrdersProducts1652296245354 } from './migrations/1652296245354-AddProductIdToOrdersProducts';
-// import { AddOrderFieldtoOrders1619889809717 } from './migrations/1619889809717-AddOrderFieldtoOrders';
+import { AddOrderFieldtoOrders1619889809717 } from './migrations/1619889809717-AddOrderFieldtoOrders';
 
 export const dataSource = new DataSource({
   type: 'postgres',
@@ -35,6 +35,6 @@ export const dataSource = new DataSource({
     CreateOrdersProducts1652295404709,
     AddOrderIdToOrdersProducts1652295820563,
     AddProductIdToOrdersProducts1652296245354,
-    // AddOrderFieldtoOrders1619889809717,
+    AddOrderFieldtoOrders1619889809717,
   ],
 });

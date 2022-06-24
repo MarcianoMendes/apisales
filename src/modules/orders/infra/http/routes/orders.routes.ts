@@ -1,27 +1,33 @@
+import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
-import { RequestHandler, Router } from 'express';
-import OrderController from '../controllers/OrderController';
-
-const seguimentParams = {
-  id: Joi.string().uuid().required(),
-};
-
-const seguimentBody = {
-  customer_id: Joi.string().uuid().required(),
-  products: Joi.required(),
-};
-
-function validateParams(): RequestHandler {
-  return celebrate({ [Segments.PARAMS]: seguimentParams });
-}
-
-function validateBody(): RequestHandler {
-  return celebrate({ [Segments.BODY]: seguimentBody });
-}
+import OrdersController from '../controllers/OrderController';
+import isAuthenticated from '@shared/infra/http/middlewares/authenticated';
 
 const ordersRouter = Router();
-const orderController = new OrderController();
-ordersRouter.get('/:id', validateParams(), orderController.show);
-ordersRouter.post('/', validateBody(), orderController.create);
+const ordersController = new OrdersController();
+ordersRouter.use(isAuthenticated);
+
+ordersRouter.get('/', ordersController.index);
+
+ordersRouter.get(
+  '/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  ordersController.show,
+);
+
+ordersRouter.post(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      customer_id: Joi.string().uuid().required(),
+      products: Joi.required(),
+    },
+  }),
+  ordersController.create,
+);
 
 export default ordersRouter;

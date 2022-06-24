@@ -1,37 +1,60 @@
-import Customer from '@modules/customers/infra/typeorm/entities/Customer';
-import { EntityRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import Order from '../entities/Order';
+import { ICreateOrder } from '@modules/orders/domain/models/ICreateOrder';
+import {
+  IOrdersRepository,
+  SearchParams,
+} from '@modules/orders/domain/repositories/IOrdersRepository';
+import { IOrderPaginate } from '@modules/orders/domain/models/IOrderPaginate';
+import { dataSource } from '@shared/infra/typeorm';
 
-interface IProduct {
-  product_id: string;
-  price: number;
-  quantity: number;
-}
+class OrdersRepository implements IOrdersRepository {
+  private ormRepository: Repository<Order>;
 
-interface IRequest {
-  customer: Customer;
-  products: IProduct[];
-}
+  constructor() {
+    this.ormRepository = dataSource.getRepository(Order);
+  }
 
-@EntityRepository(Order)
-class OrderRepository extends Repository<Order> {
-  public async findById(id: string): Promise<Order | undefined> {
-    const order = this.findOne(id, {
+  public async findById(id: string): Promise<Order | null> {
+    const order = this.ormRepository.findOne({
+      where: { id },
       relations: ['order_products', 'customer'],
     });
 
     return order;
   }
 
-  public async createOrder({ customer, products }: IRequest): Promise<Order> {
-    const order = this.create({
+  public async findAll({
+    page,
+    skip,
+    take,
+  }: SearchParams): Promise<IOrderPaginate> {
+    const [orders, count] = await this.ormRepository
+      .createQueryBuilder()
+      .skip(skip)
+      .take(take)
+      .getManyAndCount();
+
+    const result = {
+      per_page: take,
+      total: count,
+      current_page: page,
+      data: orders,
+    };
+
+    return result;
+  }
+
+  public async create({ customer, products }: ICreateOrder): Promise<Order> {
+    const order = this.ormRepository.create({
       customer,
       order_products: products,
     });
 
-    await this.save(order);
+    await this.ormRepository.save(order);
+
     return order;
   }
 }
 
-export default OrderRepository;
+export default OrdersRepository;
