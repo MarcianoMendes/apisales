@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
-// import { ICustomer } from '../domain/models/ICustomer';
 import { ICustomerPaginate } from '../domain/models/ICustomerPaginate';
 
 interface SearchParams {
