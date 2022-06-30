@@ -12,7 +12,7 @@ class CreateOrderService {
     @inject('OrdersRepository')
     private ordersRepository: IOrdersRepository,
 
-    @inject('CustomersRepository')
+    @inject('CustomerRepository')
     private customersRepository: ICustomersRepository,
 
     @inject('ProductsRepository')
